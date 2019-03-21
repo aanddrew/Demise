@@ -5,7 +5,7 @@ The plan:
 
 	Rendered using a binary space partition (bsp).
 
-	The game will use SFML to draw the 2d graphics, but the 3d projection and perspective is done internally.
+	The game will use SFML to draw the 2d graphics, but 3d projection and perspective is done internally.
 
 
 This is the prototype stage of the project.
