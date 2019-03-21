@@ -2,6 +2,8 @@
 
 namespace geom
 {
+	Wall::Wall() : Wall(utils::Point2d(0,0), utils::Point2d(0,0))
+	{}
 	Wall::Wall(utils::Vector2d faceIn)
 	{
 		face = faceIn;
@@ -32,6 +34,13 @@ namespace geom
 	{
 		utils::Vector2d dist = utils::Vector2d( this->getCenter(), 
 																					 target.getCenter());
+		return this->getNormal().dot(dist) > 0;
+	}
+
+	bool Wall::inFrontOf(const utils::Point2d& target) const
+	{
+		utils::Vector2d dist = utils::Vector2d( this->getCenter(), 
+																					 target);
 		return this->getNormal().dot(dist) > 0;
 	}
 

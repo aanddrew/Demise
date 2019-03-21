@@ -1,3 +1,6 @@
+#ifndef PLAYER_H
+#define PLAYER_H
+
 #include "../../utils/Vector2d.h"
 
 #include <SFML/Graphics.hpp>
@@ -31,3 +34,5 @@ public:
 	utils::Vector2d getVec();
 	utils::Vector2d getNormal();
 };
+
+#endif

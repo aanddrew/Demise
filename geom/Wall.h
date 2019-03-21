@@ -1,3 +1,6 @@
+#ifndef WALL_H
+#define WALL_H
+
 #include "../utils/Vector2d.h"
 #include "../utils/Point2d.h"
 
@@ -14,12 +17,14 @@ namespace geom
 		sf::Color color;
 	public:
 		//we dont need default constructor, that's bad behavior
+		Wall();
 		//takes the face as parameter
 		Wall(utils::Vector2d);
 		Wall(utils::Point2d start, utils::Point2d end);
 
 		//useful for building bsp
 		bool inFrontOf(const Wall&) const;
+		bool inFrontOf(const utils::Point2d&) const;
 
 		//getters
 		utils::Point2d  getCenter() const;
@@ -28,3 +33,4 @@ namespace geom
 		sf::Color       getColor() const;
 	};
 }
+#endif
