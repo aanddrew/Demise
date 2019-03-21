@@ -1,0 +1,1 @@
+g++ sfmlTest.cpp ../utils/*.cpp ../geom/*.cpp scratch/Player.cpp -lsfml-graphics -lsfml-window -lsfml-system

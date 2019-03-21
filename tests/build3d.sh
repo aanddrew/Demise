@@ -1,0 +1,1 @@
+g++ test3d.cpp ../utils/*.cpp ../geom/*.cpp scratch/Player.cpp Bsp.cpp -lsfml-graphics -lsfml-window -lsfml-system

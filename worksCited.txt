@@ -1,0 +1,2 @@
+This website was instrumental in me understanding the BSP
+	https://www.cs.utah.edu/~jsnider/SeniorProj/BSP1/default.html
