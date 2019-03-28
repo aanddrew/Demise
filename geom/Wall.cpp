@@ -30,18 +30,19 @@ namespace geom
 	: Wall(utils::Vector2d(start, end))
 	{}
 
+	//returns true if the /*parameter*/ is in front of *this*
 	bool Wall::inFrontOf(const Wall& target) const
 	{
 		utils::Vector2d dist = utils::Vector2d( this->getCenter(), 
 																					 target.getCenter());
-		return this->getNormal().dot(dist) > 0;
+		return this->getNormal().dot(dist) >= 0;
 	}
-
+	//same as above
 	bool Wall::inFrontOf(const utils::Point2d& target) const
 	{
 		utils::Vector2d dist = utils::Vector2d( this->getCenter(), 
 																					 target);
-		return this->getNormal().dot(dist) > 0;
+		return this->getNormal().dot(dist) >= 0;
 	}
 
 	utils::Point2d  Wall::getCenter()const {return center;}

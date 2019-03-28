@@ -1,2 +1,4 @@
 This website was instrumental in me understanding the BSP
 	https://www.cs.utah.edu/~jsnider/SeniorProj/BSP1/default.html
+This website helped me take the bsp to the next level
+	http://www.gamers.org/dhs/helpdocs/bsp_faq.html

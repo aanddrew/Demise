@@ -10,7 +10,8 @@
 #include "../utils/Vector2d.h"
 
 // #include "../rendering/renderWall.h"
-#include "Bsp.h"
+// #include "Bsp.h"
+#include "BSP.h"
 
 #include "scratch/Player.h"
 
@@ -78,26 +79,35 @@ int main()
 	//set the seed for wall creation
 	srand(0);
 	printf("Application Starting...\n");
-	std::vector<geom::Wall> walls = buildWalls("../maps/wallsbspTest.txt");
+	std::vector<geom::Wall> walls = buildWalls("../maps/insVertical.txt");
 	// printf("%f\n", walls.at(0).getFace().getStart().getX());
 
-	Bsp bsp;
-	bsp.build(walls);
-	bsp.printTree();
+	// Bsp bsp;
+	// bsp.build(walls);
+	// bsp.printTree();
+	BSP bsp;
+	bsp.build(walls);	
 
-	sf::RenderWindow window(sf::VideoMode(1600,900), "3d test");
+	//make a window that can't be resized
+	sf::RenderWindow window(sf::VideoMode(1600,900), "3d test", 
+												  sf::Style::Titlebar | sf::Style::Close);
 	sf::Mouse::setPosition(sf::Vector2i(window.getView().getSize().x/2,window.getView().getSize().y/2), window);
+	//hide that mouse cursor
 	window.setMouseCursorVisible(false);
+
+	//used to read keyboard input
 	sf::Event event;
 
+	//used to keep track of frameTime, fps for updats etc
 	sf::Clock clock;
 	sf::Time dt;
 
+	//the player
 	Player p;
-	// p.rotate(M_PI);
 
 	while(window.isOpen())
 	{
+		//grab the time of the last frame.
 		dt = clock.restart();
 
 		while(window.pollEvent(event))
@@ -119,14 +129,17 @@ int main()
 					break;
 			}
 		}
+		//rotate the player's view based on how far they moved the mouse in the last frame
 		p.rotate(-0.003* (sf::Mouse::getPosition(window).x - window.getView().getSize().x/2));
+		//bring it back to th ecenter
 		sf::Mouse::setPosition(sf::Vector2i(window.getView().getSize().x/2,window.getView().getSize().y/2), window);
-		
+
+		//rendering time
 		window.clear();
 
 		p.update(dt);
 
-		bsp.render(window, p);
+		// bsp.render(window, p);
 
 		drawCrosshair(window);
 

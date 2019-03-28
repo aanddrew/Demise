@@ -29,8 +29,11 @@ class Bsp
 {
 private:
 	wallNode* root;
+	void fixSplitsRecursive(wallNode*, wallNode*);
+	void fixSplits(wallNode*);
 public:
 	Bsp();
+	~Bsp();
 	Bsp(std::vector<geom::Wall>);
 	void insert(wallNode*);
 	void build(std::vector<geom::Wall>);
