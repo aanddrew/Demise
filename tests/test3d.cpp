@@ -79,7 +79,7 @@ int main()
 	//set the seed for wall creation
 	srand(0);
 	printf("Application Starting...\n");
-	std::vector<geom::Wall> walls = buildWalls("../maps/insVertical.txt");
+	std::vector<geom::Wall> walls = buildWalls("../maps/exMap.txt");
 	// printf("%f\n", walls.at(0).getFace().getStart().getX());
 
 	// Bsp bsp;
@@ -139,7 +139,7 @@ int main()
 
 		p.update(dt);
 
-		// bsp.render(window, p);
+		bsp.render(window, p);
 
 		drawCrosshair(window);
 

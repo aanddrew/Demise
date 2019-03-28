@@ -160,13 +160,12 @@ geom::Wall* split(geom::Wall parent, geom::Wall inserted)
 	return returned;
 }
 
-void buildHelper(tree* node, std::vector<geom::Wall> walls)
+void buildHelper(tree* node, std::vector<geom::Wall> walls, int depth)
 {
+	printf("depth: %d\n", depth);
 	//if we reach a base, we're done
 	if (node == nullptr)
 		return;
-
-	printf("hereSTART\n");
 
 	// printf("node %p\n", node);
 	//give this node the list of walls,
@@ -174,24 +173,20 @@ void buildHelper(tree* node, std::vector<geom::Wall> walls)
 	node->walls = walls;
 	//then we decide the partition plane for this node
 	//lets just shake up the walls randomly
-	printf("here1.05\n");
 	std::random_shuffle(walls.begin(), walls.end());
-	printf("here1.1\n");
 	//then we get the first wall in the vector and that will be the partition
 	node->partition = walls.at(0);
+	walls.erase(walls.begin());
 
 	//then split the nodes into front and back
 	std::vector<geom::Wall> frontWalls;
 	std::vector<geom::Wall> backWalls;
-	printf("here2\n");
 	for(int i = 0; i < walls.size(); i++)
 	{
-		printf("here3\n");
 		//then we got a splitter
 		if (splits(node->partition, walls.at(i)))
 		{
 			geom::Wall* splits = split(node->partition, walls.at(i));
-			printf("here4\n");
 			// the split function can return dud walls, so we just have to check for
 			//that before we add them to the list
 			if (splits[0].getFace().getMagnitude() != 0)
@@ -202,8 +197,6 @@ void buildHelper(tree* node, std::vector<geom::Wall> walls)
 			break;
 		}
 
-
-		printf("here3.1\n");
 		if (walls.at(i).inFrontOf(node->partition))
 		{
 			frontWalls.push_back(walls.at(i));
@@ -220,13 +213,13 @@ void buildHelper(tree* node, std::vector<geom::Wall> walls)
 		//then we create a new node
 		tree* frontTree = new tree;
 		node->front = frontTree;
-		buildHelper(node->front, frontWalls);
+		buildHelper(node->front, frontWalls, depth+1);
 	}
 	if (backWalls.size() != 0)
 	{
 		tree* backTree = new tree;
 		node->back = backTree;
-		buildHelper(node->back, backWalls);
+		buildHelper(node->back, backWalls, depth+1);
 	}
 
 	//important:
@@ -237,34 +230,42 @@ void BSP::build(std::vector<geom::Wall> walls)
 {
 	if (root == nullptr)
 		root = new tree;
-	buildHelper(root, walls);
+	buildHelper(root, walls, 0);
 }
 
 void renderHelper(tree* node, sf::RenderTarget& window, Player& p)
 {
 	if (node == nullptr)
 		return;
-	//if this node is a nullptr,
-	//we draw its stuff
-	if (node->front == nullptr && node->back == nullptr)
+	
+	if (!node->partition.inFrontOf(p.getLoc()))
 	{
-		// printf("size: %d\n", node->walls.size());
-		for(int i = 0; i < node->walls.size(); i++)
-		{
-			renderWall(window, node->walls.at(i), p);
-		}
-		return;
-	}
-
-	if (node->partition.inFrontOf(p.getLoc()))
-	{
-		printf("here\n");
 		renderHelper(node->front, window, p);
+		if (node->front == nullptr || node->back == nullptr)
+		{
+			// printf("size: %d\n", node->walls.size());
+			renderWall(window, node->partition, p);
+			for(int i = 0; i < node->walls.size(); i++)
+			{
+				renderWall(window, node->walls.at(i), p);
+			}
+			return;
+		}
 		renderHelper(node->back, window, p);
 	}
 	else
 	{
 		renderHelper(node->back, window, p);
+		if (node->front == nullptr || node->back == nullptr)
+		{
+			// printf("size: %d\n", node->walls.size());
+			renderWall(window, node->partition, p);
+			for(int i = 0; i < node->walls.size(); i++)
+			{
+				renderWall(window, node->walls.at(i), p);
+			}
+			return;
+		}
 		renderHelper(node->front, window, p);
 	}
 }
