@@ -87,6 +87,8 @@ void renderHelper(wallNode* node, sf::RenderTarget& window, Player&p)
 		return;
 	}
 
+	//we calculate the dot of the walls normal vector to the vector made by the
+	//distance to the player's vector
 	geom::Wall currWall = node->wall;
 	utils::Vector2d dist = utils::Vector2d(currWall.getCenter(), 
 																				 p.getLoc());
@@ -108,7 +110,7 @@ void renderHelper(wallNode* node, sf::RenderTarget& window, Player&p)
 
 		float dotPerp = perp.dot(dist);
 
-		if (abs(dotPerp) < currWall.getFace().getFixedMagnitude()/2)
+		if (abs(dotPerp) < currWall.getFixedMagnitude()/2)
 		{
 			float diff = p.getRadius() - abs(dotNorm);
 			p.move(currWall.getNormal().getdx() * diff,

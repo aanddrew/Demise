@@ -14,8 +14,6 @@ namespace utils
 		float dx;
 		float dy;
 
-		float fixedMagnitude;
-
 		void updateDifferences();
 		void updateMagnitude();
 	public:
@@ -31,7 +29,6 @@ namespace utils
 		void scale(float);
 
 		float getMagnitude();
-		float getFixedMagnitude() const;
 
 		//getterssss
 		float getdx() const;

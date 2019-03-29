@@ -6,6 +6,7 @@ namespace geom
 	{}
 	Wall::Wall(utils::Vector2d faceIn)
 	{
+		fixedMagnitude = faceIn.getMagnitude();
 		face = faceIn;
 		//by convention - our normal will face to the right of wherever
 		// the the original vector is pointing
@@ -49,4 +50,6 @@ namespace geom
 	utils::Vector2d Wall::getNormal()const {return normal;}
 	
 	sf::Color 		  Wall::getColor() const {return color; }
+
+	float  Wall::getFixedMagnitude() const {return fixedMagnitude;}
 }

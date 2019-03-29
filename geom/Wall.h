@@ -15,6 +15,8 @@ namespace geom
 		utils::Vector2d normal;
 		utils::Point2d center;
 		sf::Color color;
+
+		float fixedMagnitude;
 	public:
 		//we dont need default constructor, that's bad behavior
 		Wall();
@@ -31,6 +33,7 @@ namespace geom
 		utils::Vector2d getFace()   const;
 		utils::Vector2d getNormal() const;
 		sf::Color       getColor() const;
+		float 					getFixedMagnitude() const;
 	};
 }
 #endif

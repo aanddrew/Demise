@@ -6,7 +6,7 @@ namespace utils
 {
 	//default constructor has start and ends at (0,0), (0,0)
 	Vector2d::Vector2d() : start(Point2d()), end(Point2d()),
-												 dx(0.0), dy(0.0), fixedMagnitude(0.0){}
+												 dx(0.0), dy(0.0){}
 	//takes two points to be initialized
 	Vector2d::Vector2d(Point2d start, Point2d end)
 	: start(start),
@@ -14,7 +14,6 @@ namespace utils
 	{
 		// printf("endX: %f, startX: %f\n", end.getX(), start.getX());
 		updateDifferences();	
-		updateMagnitude();
 	}
 
 	//private function, used to update dx and dy
@@ -24,15 +23,9 @@ namespace utils
 		dy = end.getY() - start.getY();
 	}
 
-	void Vector2d::updateMagnitude()
-	{
-		fixedMagnitude = getMagnitude();
-	}
-
 	void Vector2d::normalize()
 	{
 		float mag = getMagnitude();
-		fixedMagnitude = mag;
 		dx = dx/mag;
 		dy = dy/mag;
 
@@ -67,12 +60,6 @@ namespace utils
 	{
 		return start.getDist(end);
 	}
-
-	float Vector2d::getFixedMagnitude() const
-	{
-		return fixedMagnitude;
-	}
-
 	//formula
 	//a DOT b = a_x * b_x + a_y * b_y
 	//we compare them as if they both begin at the origin
