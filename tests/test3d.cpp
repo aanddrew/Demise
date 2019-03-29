@@ -149,13 +149,13 @@ int main()
 
 		p.update(dt);
 
-		bsp.render(window, p);
+		bsp.traverse(window, p);
 
 		drawCrosshair(window);
 
 		window.display();	
 
-		// printf("fps: %f\n", 1.0/dt.asSeconds());
+		printf("fps: %f\n", 1.0/dt.asSeconds());
 	}
 
 	printf("Closing...\n");

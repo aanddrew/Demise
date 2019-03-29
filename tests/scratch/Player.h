@@ -11,6 +11,8 @@ private:
 	utils::Vector2d vec;
 	utils::Vector2d normal;
 
+	float radius = 0.25;
+
 	float speed = 3;
 
 	//up and down really mean forward and backward
@@ -33,6 +35,7 @@ public:
 	utils::Point2d getLoc();
 	utils::Vector2d getVec();
 	utils::Vector2d getNormal();
+	float getRadius();
 };
 
 #endif

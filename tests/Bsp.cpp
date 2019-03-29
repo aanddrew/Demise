@@ -86,10 +86,38 @@ void renderHelper(wallNode* node, sf::RenderTarget& window, Player&p)
 	{
 		return;
 	}
-	//this is the bps right here
-	if(!node->wall.inFrontOf(p.getLoc()))
+
+	geom::Wall currWall = node->wall;
+	utils::Vector2d dist = utils::Vector2d(currWall.getCenter(), 
+																				 p.getLoc());
+	float dotNorm = currWall.getNormal().dot(dist);
+
+	//if dot < p.getRadius
+	//aka if 0 < p.getRadius()- dot 
+	//aka if 0 < diff
+	//aka if diff > 0
+	if (abs(dotNorm) < p.getRadius())
 	{
-		//render all the walls 
+		utils::Point2d perpEnd = utils::Point2d(
+			currWall.getCenter().getX() - currWall.getNormal().getdy(),
+			currWall.getCenter().getY() + currWall.getNormal().getdx()
+			);
+
+		utils::Vector2d perp = utils::Vector2d(currWall.getCenter(),
+																					 perpEnd);
+
+		float dotPerp = perp.dot(dist);
+
+		if (abs(dotPerp) < currWall.getFace().getFixedMagnitude()/2)
+		{
+			float diff = p.getRadius() - abs(dotNorm);
+			p.move(currWall.getNormal().getdx() * diff,
+						 currWall.getNormal().getdy() * diff);
+		}
+	}
+	//if the player is in front of the current wall
+	if(dotNorm < 0)
+	{
 		renderHelper(node->frontChild, window, p);
 		renderWall(window, node->wall, p);
 		renderHelper(node->backChild, window, p);
@@ -102,7 +130,7 @@ void renderHelper(wallNode* node, sf::RenderTarget& window, Player&p)
 	}
 }
 
-void Bsp::render(sf::RenderTarget& window, Player& p)
+void Bsp::traverse(sf::RenderTarget& window, Player& p)
 {
 	renderHelper(root, window, p);
 }

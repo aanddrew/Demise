@@ -14,7 +14,10 @@ namespace utils
 		float dx;
 		float dy;
 
+		float fixedMagnitude;
+
 		void updateDifferences();
+		void updateMagnitude();
 	public:
 		Vector2d();
 		Vector2d(Point2d, Point2d);
@@ -28,6 +31,7 @@ namespace utils
 		void scale(float);
 
 		float getMagnitude();
+		float getFixedMagnitude() const;
 
 		//getterssss
 		float getdx() const;
