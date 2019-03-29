@@ -32,6 +32,8 @@ p   |
 //this function is incredible
 void renderWall(sf::RenderTarget& window, geom::Wall& wall, Player& p)
 {
+	if (!wall.inFrontOf(p.getLoc()))
+		return;
 	//constants to use for 
 	int k = 200;
 	int C = 200;

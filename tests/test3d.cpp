@@ -10,8 +10,8 @@
 #include "../utils/Vector2d.h"
 
 // #include "../rendering/renderWall.h"
-// #include "Bsp.h"
-#include "BSP.h"
+#include "Bsp.h"
+// #include "BSP.h"
 
 #include "scratch/Player.h"
 
@@ -25,13 +25,21 @@ std::vector<geom::Wall> buildWalls(std::string fileName)
 	std::string temp;
 	while(std::getline(inFile, temp))
 	{
+		if(temp.empty())
+			continue;
 		//parse each line of input
 		temp += ',';
 		float pts[4];
 		std::string built ="";
 		int index = 0;
+		bool comment = false;
 		for(int i = 0; i < temp.length(); i++)
 		{
+			if (temp[i] == '#')
+			{
+				comment = true;
+				break;
+			}
 			if (temp[i] != ',')
 			{
 				built += temp[i];
@@ -43,6 +51,8 @@ std::vector<geom::Wall> buildWalls(std::string fileName)
 				index++;
 			}
 		}
+		if (comment)
+			continue;
 		//now its time to create the points of the wall
 		walls.push_back(geom::Wall(
 										utils::Point2d(pts[0], pts[1]),
@@ -77,15 +87,15 @@ void handleInput(sf::Keyboard::Key key, bool isPressed, Player& p, sf::Time dt)
 int main()
 {
 	//set the seed for wall creation
-	srand(0);
+	srand(1);
 	printf("Application Starting...\n");
-	std::vector<geom::Wall> walls = buildWalls("../maps/exMap.txt");
+	std::vector<geom::Wall> walls = buildWalls("../maps/manualSplits.txt");
 	// printf("%f\n", walls.at(0).getFace().getStart().getX());
 
 	// Bsp bsp;
 	// bsp.build(walls);
 	// bsp.printTree();
-	BSP bsp;
+	Bsp bsp;
 	bsp.build(walls);	
 
 	//make a window that can't be resized

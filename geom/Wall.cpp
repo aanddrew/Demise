@@ -16,14 +16,13 @@ namespace geom
 		//this is done by the mapping (x,y) => (y,-x);
 		normal = utils::Vector2d(center, 
 														 utils::Point2d(
-
 													 	 				center.getX() 
 													 	 			+ face.getdy(),
-
 													 	 				center.getY() 
 													 	 			- face.getdx()));
 		normal.normalize();
 		color = sf::Color(rand()%255, rand()%255, rand()%255);
+		// color = sf::Color(0,255,0);
 	}
 
 	Wall::Wall(utils::Point2d start, utils::Point2d end)

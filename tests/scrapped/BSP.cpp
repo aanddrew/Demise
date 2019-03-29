@@ -160,9 +160,26 @@ geom::Wall* split(geom::Wall parent, geom::Wall inserted)
 	return returned;
 }
 
+//returns true if none of the polygons intersect with eachother
+bool isConvex(std::vector<geom::Wall> walls)
+{
+	for(int i = 0; i < walls.size(); i++)
+	{
+		for(int k = 0; k < walls.size(); k++)
+		{
+			if (i == k) continue;
+
+			if (splits(walls.at(i), walls.at(k)))
+				return false;
+		}
+	}
+	return true;
+}
+
 void buildHelper(tree* node, std::vector<geom::Wall> walls, int depth)
 {
-	printf("depth: %d\n", depth);
+	// printf("enterStack\n");
+	// printf("depth: %d\n", depth);
 	//if we reach a base, we're done
 	if (node == nullptr)
 		return;
@@ -170,32 +187,33 @@ void buildHelper(tree* node, std::vector<geom::Wall> walls, int depth)
 	// printf("node %p\n", node);
 	//give this node the list of walls,
 	//THIS CAUSES A SEG FAULT??? I am too tired to debug this
-	node->walls = walls;
 	//then we decide the partition plane for this node
 	//lets just shake up the walls randomly
 	std::random_shuffle(walls.begin(), walls.end());
 	//then we get the first wall in the vector and that will be the partition
-	node->partition = walls.at(0);
-	walls.erase(walls.begin());
+	node->partition = walls.at(walls.size()-1);
+	// walls.erase(walls.begin());
+	walls.pop_back();
+
+	node->walls = walls;
 
 	//then split the nodes into front and back
 	std::vector<geom::Wall> frontWalls;
 	std::vector<geom::Wall> backWalls;
 	for(int i = 0; i < walls.size(); i++)
 	{
-		//then we got a splitter
-		if (splits(node->partition, walls.at(i)))
-		{
-			geom::Wall* splits = split(node->partition, walls.at(i));
-			// the split function can return dud walls, so we just have to check for
-			//that before we add them to the list
-			if (splits[0].getFace().getMagnitude() != 0)
-				// printf("here\n" );
-				frontWalls.push_back(splits[0]);
-			if (splits[1].getFace().getMagnitude() != 0)
-				backWalls.push_back(splits[1]);
-			break;
-		}
+		// //then we got a splitter
+		// if (splits(node->partition, walls.at(i)))
+		// {
+		// 	geom::Wall* splits = split(node->partition, walls.at(i));
+		// 	// the split function can return dud walls, so we just have to check for
+		// 	//that before we add them to the list
+		// 	if (splits[0].getFace().getMagnitude() != 0)
+		// 		frontWalls.push_back(splits[0]);
+		// 	if (splits[1].getFace().getMagnitude() != 0)
+		// 		backWalls.push_back(splits[1]);
+		// 	break;
+		// }
 
 		if (walls.at(i).inFrontOf(node->partition))
 		{
@@ -207,7 +225,10 @@ void buildHelper(tree* node, std::vector<geom::Wall> walls, int depth)
 		}
 	}
 	//then create two sub trees and add those to the root
-
+	
+	// printf("%d\n",frontWalls.size());
+	// printf("%d\n",backWalls.size());
+	
 	if (frontWalls.size() != 0)
 	{
 		//then we create a new node
@@ -222,6 +243,7 @@ void buildHelper(tree* node, std::vector<geom::Wall> walls, int depth)
 		buildHelper(node->back, backWalls, depth+1);
 	}
 
+	return;
 	//important:
 	//when are we done? idk
 }
@@ -231,6 +253,7 @@ void BSP::build(std::vector<geom::Wall> walls)
 	if (root == nullptr)
 		root = new tree;
 	buildHelper(root, walls, 0);
+	// printf("done building\n");
 }
 
 void renderHelper(tree* node, sf::RenderTarget& window, Player& p)
@@ -238,40 +261,60 @@ void renderHelper(tree* node, sf::RenderTarget& window, Player& p)
 	if (node == nullptr)
 		return;
 	
+	// if (node->front == nullptr || node->back == nullptr)
+	// {
+	// 	// printf("size: %d\n", node->walls.size());
+	// 	renderWall(window, node->partition, p);
+	// 	for(int i = 0; i < node->walls.size(); i++)
+	// 	{
+	// 		renderWall(window, node->walls.at(i), p);
+	// 	}
+	// 	return;
+	// }
+	// printf("enter render\n");
 	if (!node->partition.inFrontOf(p.getLoc()))
 	{
+		// printf("front1\n");
 		renderHelper(node->front, window, p);
-		if (node->front == nullptr || node->back == nullptr)
+		// printf("front2\n");
+		renderWall(window, node->partition, p);
+		for(int i = 0; i < node->walls.size(); i++)
 		{
-			// printf("size: %d\n", node->walls.size());
-			renderWall(window, node->partition, p);
-			for(int i = 0; i < node->walls.size(); i++)
-			{
-				renderWall(window, node->walls.at(i), p);
-			}
-			return;
+			renderWall(window, node->walls.at(i), p);
 		}
 		renderHelper(node->back, window, p);
 	}
 	else
 	{
+		// printf("back1\n");
 		renderHelper(node->back, window, p);
-		if (node->front == nullptr || node->back == nullptr)
+		// printf("back2\n");
+		renderWall(window, node->partition, p);
+		for(int i = 0; i < node->walls.size(); i++)
 		{
-			// printf("size: %d\n", node->walls.size());
-			renderWall(window, node->partition, p);
-			for(int i = 0; i < node->walls.size(); i++)
-			{
-				renderWall(window, node->walls.at(i), p);
-			}
-			return;
+			renderWall(window, node->walls.at(i), p);
 		}
 		renderHelper(node->front, window, p);
 	}
+	// printf("exit render\n");
 }
 
 void BSP::render(sf::RenderTarget& window, Player& p)
 {
 	// printf("rendering\n");
 	renderHelper(root, window, p);
+}
+
+// void printHelper(tree* node, int depth)
+// {
+// 	for(int i = 0; i < node->walls.size())
+// 	{
+// 		geom::Wall temp = node->walls.at(i);
+// 		printf("wall: %f, %f; %f, %f\n", temp.getFace().get)
+// 	}
+// }
+
+void BSP::printTree()
+{
+
 }

@@ -24,18 +24,17 @@ struct wallNode
 	}
 };
 
-//gonna look something like this
+/*
+Right now it only works with a pre-split map
+*/
 class Bsp
 {
 private:
 	wallNode* root;
-	void fixSplitsRecursive(wallNode*, wallNode*);
-	void fixSplits(wallNode*);
 public:
 	Bsp();
 	~Bsp();
 	Bsp(std::vector<geom::Wall>);
-	void insert(wallNode*);
 	void build(std::vector<geom::Wall>);
 	void render(sf::RenderTarget& window, Player& p);
 	void printTree();

@@ -26,6 +26,7 @@ public:
 	BSP();
 	void build(std::vector<geom::Wall>);
 	void render(sf::RenderTarget& window, Player& p);
+	void printTree();
 };
 
 #endif
