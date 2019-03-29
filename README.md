@@ -1,7 +1,7 @@
 ---Demise---
 
 The plan:
-	Make a 3d game in the style of wolfenstein.
+	Make a 3d game rendered in the style of wolfenstein/doom.
 
 	Rendered using a binary space partition (bsp).
 
