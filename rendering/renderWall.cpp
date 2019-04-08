@@ -32,8 +32,8 @@ p   |
 //this function is incredible
 void renderWall(sf::RenderTarget& window, geom::Wall& wall, Player& p)
 {
-	if (!wall.inFrontOf(p.getLoc()))
-		return;
+	// if (!wall.inFrontOf(p.getLoc()))
+	// 	return;
 	//constants to use for 
 	int k = 200;
 	int C = 200;
@@ -206,6 +206,10 @@ void renderWall(sf::RenderTarget& window, geom::Wall& wall, Player& p)
 
 	int halfWidth = window.getView().getSize().x/2;
 	int halfHeight = window.getView().getSize().y/2;
+
+	// //testing something
+	// h1 = C/p.getLoc().getDist(wall.getFace().getStart());
+	// h2 = C/p.getLoc().getDist(wall.getFace().getEnd());
 
 	if (z1 > 0)
 	{

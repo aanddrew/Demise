@@ -28,6 +28,8 @@ namespace geom
 		bool inFrontOf(const Wall&) const;
 		bool inFrontOf(const utils::Point2d&) const;
 
+		void setColor(sf::Color);
+
 		//getters
 		utils::Point2d  getCenter() const;
 		utils::Vector2d getFace()   const;

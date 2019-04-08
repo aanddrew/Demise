@@ -56,6 +56,7 @@ void Player::update(sf::Time dt)
 	}
 
 	//if the player is moving diagonally
+	//we have to scale the movespeed by 1/sqrt(2)
 	if ((movingLeft || movingRight ) && (movingUp || movingDown))
 	{
 		float OneOverROOT2 = 1.0/1.414213562;

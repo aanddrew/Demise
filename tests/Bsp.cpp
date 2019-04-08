@@ -64,6 +64,8 @@ void insertSingle(wallNode* top, wallNode* inserted)
 
 void Bsp::build(std::vector<geom::Wall> walls)
 {
+	// walls = doSplits(walls);
+
 	//scramble the list of walls,
 	//this results in a more balanced tree usually, probably
 	std::random_shuffle(walls.begin(), walls.end());
@@ -79,7 +81,7 @@ void Bsp::build(std::vector<geom::Wall> walls)
 	}
 }
 
-//pretty good start
+//render and do collision detection
 void renderHelper(wallNode* node, sf::RenderTarget& window, Player&p)
 {
 	if (node == nullptr)
@@ -100,11 +102,13 @@ void renderHelper(wallNode* node, sf::RenderTarget& window, Player&p)
 	//aka if diff > 0
 	if (abs(dotNorm) < p.getRadius())
 	{
+		//this is perpendicular to the wall's normal
 		utils::Point2d perpEnd = utils::Point2d(
 			currWall.getCenter().getX() - currWall.getNormal().getdy(),
 			currWall.getCenter().getY() + currWall.getNormal().getdx()
 			);
 
+		//this is the perpendicular normal vector
 		utils::Vector2d perp = utils::Vector2d(currWall.getCenter(),
 																					 perpEnd);
 

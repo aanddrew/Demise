@@ -95,6 +95,10 @@ int main()
 	// Bsp bsp;
 	// bsp.build(walls);
 	// bsp.printTree();
+	// std::vector<geom::Wall> walls;
+	// walls.push_back(geom::Wall(utils::Point2d(-3,1), utils::Point2d(0,4)));
+	// walls.push_back(geom::Wall(utils::Point2d(-6,1), utils::Point2d(-4,5)));
+	// walls.push_back(geom::Wall(utils::Point2d(-8,1), utils::Point2d(-7,4)));
 	Bsp bsp;
 	bsp.build(walls);	
 

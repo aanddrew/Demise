@@ -45,6 +45,11 @@ namespace geom
 		return this->getNormal().dot(dist) >= 0;
 	}
 
+	void Wall::setColor(sf::Color colorIn)
+	{
+		color = colorIn;
+	}
+
 	utils::Point2d  Wall::getCenter()const {return center;}
 	utils::Vector2d Wall::getFace()  const {return face;  }
 	utils::Vector2d Wall::getNormal()const {return normal;}

@@ -13,7 +13,7 @@ private:
 
 	float radius = 0.25;
 
-	float speed = 3;
+	float speed = 4;
 
 	//up and down really mean forward and backward
 	//but since the game is effectively on a 2d plane, this still makes sense
