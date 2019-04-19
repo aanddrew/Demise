@@ -5,14 +5,17 @@
 -6,-1,-6,1
 #this is the next one going to the right
 #all of these are just going clockwise around until the half way point
+C255,255,255
 -6,1,-4,1
 -4,1,-3,1
 -3,1,-3,3
 -3,3,3,3
+C64,23,78
 3,3,3,1
 3,1,5,1
 5,1,9,1
 9,1,9,-1
+C255,255,0
 9,-1,9,-3
 9,-3,9,-5
 9,-5,9,-9

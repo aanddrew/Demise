@@ -9,7 +9,7 @@ for the x coordinate on the screen, we can't just mutiply by a constant.
 This is easy to see because if an object is any distance away from
 	the viewer,
 This results in the coordinate never ending up in the center...
-FACEPALM
+FACEPALMbackChild
 I have a solution to this problem
 
 We give the camera (Player) a normal vector
