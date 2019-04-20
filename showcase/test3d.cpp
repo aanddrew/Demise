@@ -115,6 +115,22 @@ bool check_win(float x, float y)
 	else {return false;}
 }
 
+bool disp_win(sf::RenderTarget& window)
+{
+	sf::Font arial;
+	arial.loadFromFile("../resources/arial.ttf");
+
+	sf::Text winText;
+	winText.setFont(arial);
+
+	winText.setCharacterSize(72);
+	winText.setFillColor(sf::Color::White);
+
+	winText.setString("You win\n Press 'space' to restart");
+
+	window.draw(winText);
+}
+
 int main()
 {
 	//set the seed for wall creation
@@ -175,8 +191,8 @@ int main()
 				}
 					break;
 			}
-			win = check_win(p.getX(),p.getY());
 		}
+		win = check_win(p.getX(),p.getY());
 		//rotate the player's view based on how far they moved the mouse in the last frame
 		p.rotate(-0.003* (sf::Mouse::getPosition(window).x - window.getView().getSize().x/2));
 		//bring it back to th ecenter
@@ -194,6 +210,30 @@ int main()
 		window.display();	
 
 		printf("fps: %f\n", 1.0/dt.asSeconds());
+		while(win)
+		{
+			window.clear();
+			disp_win(window);
+			window.display();
+			while(window.pollEvent(event))
+			{
+				switch(event.type)
+				{
+					case sf::Event::Closed:
+						window.close();
+						break;
+					case sf::Event::KeyPressed:
+					{
+						if (event.key.code == sf::Keyboard::Space)
+						{
+							p.reset();
+							win = false;
+						}
+					}
+						break;
+				}
+			}
+		}
 	}
 
 	printf("Closing...\n");

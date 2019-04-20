@@ -38,6 +38,8 @@ public:
 	float getRadius();
 	float getX();
 	float getY();
+
+	void reset();
 };
 
 #endif
