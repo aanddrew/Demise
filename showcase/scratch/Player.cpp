@@ -98,3 +98,5 @@ utils::Point2d Player::getLoc() {return vec.getStart();}
 utils::Vector2d Player::getVec() {return vec;}
 utils::Vector2d Player::getNormal() {return normal;}
 float Player::getRadius() {return radius;}
+float Player::getX() {return vec.getStart().getX();}
+float Player::getY() {return vec.getStart().getY();}

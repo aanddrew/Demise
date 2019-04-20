@@ -36,6 +36,8 @@ public:
 	utils::Vector2d getVec();
 	utils::Vector2d getNormal();
 	float getRadius();
+	float getX();
+	float getY();
 };
 
 #endif

@@ -108,12 +108,19 @@ void handleInput(sf::Keyboard::Key key, bool isPressed, Player& p, sf::Time dt)
 	p.update(dt);
 }
 
+bool check_win(float x, float y)
+{
+	// End conditions are hardcoded
+	if((x > 10.5 && x < 11.5)&&(y > 11.5 && y < 12.5)) {return true;}
+	else {return false;}
+}
+
 int main()
 {
 	//set the seed for wall creation
 	srand(1);
 	printf("Application Starting...\n");
-	std::vector<geom::Wall> walls = buildWalls("../maps/manualSplits.txt");
+	std::vector<geom::Wall> walls = buildWalls("../maps/maze.txt");
 	// printf("%f\n", walls.at(0).getFace().getStart().getX());
 
 	// Bsp bsp;
@@ -150,21 +157,25 @@ int main()
 
 		while(window.pollEvent(event))
 		{
-			switch(event.type)
+			while(check_win(p.getX(),p.getY()))
 			{
-				case sf::Event::Closed:
-					window.close();
-					break;
-				case sf::Event::KeyPressed:
+			//bool win = check_win(p.getX(),p.getY());
+				switch(event.type)
 				{
-					handleInput(event.key.code, true, p, dt);
+					case sf::Event::Closed:
+						window.close();
+						break;
+					case sf::Event::KeyPressed:
+					{
+						handleInput(event.key.code, true, p, dt);
+					}
+						break;
+					case sf::Event::KeyReleased:
+					{
+						handleInput(event.key.code, false, p, dt);
+					}
+						break;
 				}
-					break;
-				case sf::Event::KeyReleased:
-				{
-					handleInput(event.key.code, false, p, dt);
-				}
-					break;
 			}
 		}
 		//rotate the player's view based on how far they moved the mouse in the last frame
