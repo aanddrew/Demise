@@ -6,6 +6,11 @@ Player::Player()
 	vec = utils::Vector2d(utils::Point2d(0,0), utils::Point2d(0,1));
 	//the normal is facing 90degrees clockwise from the vec
 	normal = utils::Vector2d(utils::Point2d(0,0), utils::Point2d(1,0));
+
+	movingUp = false;
+	movingDown = false;
+	movingLeft = false;
+	movingRight = false;
 }
 
 void Player::handleKeyInput(sf::Keyboard::Key key, bool isPressed)

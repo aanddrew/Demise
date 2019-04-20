@@ -115,7 +115,7 @@ bool check_win(float x, float y)
 	else {return false;}
 }
 
-bool disp_win(sf::RenderTarget& window)
+bool disp_win(sf::RenderTarget& window, float time)
 {
 	sf::Font arial;
 	arial.loadFromFile("../resources/arial.ttf");
@@ -126,7 +126,9 @@ bool disp_win(sf::RenderTarget& window)
 	winText.setCharacterSize(72);
 	winText.setFillColor(sf::Color::White);
 
-	winText.setString("You win\n Press 'space' to restart");
+	winText.setString("  You win!!!\n  Your time was: " 
+									+ std::to_string(time) + " seconds!\n" 
+									+ "  Press 'space' to restart.");
 
 	window.draw(winText);
 }
@@ -168,10 +170,27 @@ int main()
 
 	bool win = false;
 
+	//this is all for the logistics of the timer in the top left of the screen
+	float playerTimer = 0.0;
+	sf::Font arial;
+	arial.loadFromFile("../resources/arial.ttf");
+
+	sf::Text timerText;
+	timerText.setFont(arial);
+
+	timerText.setCharacterSize(36);
+	timerText.setFillColor(sf::Color::White);
+	timerText.setString("0.0");
+
+	sf::RectangleShape textRect(sf::Vector2f(200,50));
+	textRect.setFillColor(sf::Color::Black);
+
 	while(window.isOpen() && !win)
 	{
 		//grab the time of the last frame.
 		dt = clock.restart();
+		playerTimer += dt.asSeconds();
+		timerText.setString(" " + std::to_string(playerTimer));
 		
 		while(window.pollEvent(event))
 		{
@@ -207,19 +226,28 @@ int main()
 
 		drawCrosshair(window);
 
+		window.draw(textRect);
+		window.draw(timerText);
+
 		window.display();	
 
-		printf("fps: %f\n", 1.0/dt.asSeconds());
-		while(win)
+		// printf("fps: %f\n", 1.0/dt.asSeconds());
+
+
+		//this displays after the player has won
+		bool endScreen = win;
+
+		while(endScreen)
 		{
 			window.clear();
-			disp_win(window);
+			disp_win(window, playerTimer);
 			window.display();
 			while(window.pollEvent(event))
 			{
 				switch(event.type)
 				{
 					case sf::Event::Closed:
+						endScreen = false;
 						window.close();
 						break;
 					case sf::Event::KeyPressed:
@@ -227,13 +255,16 @@ int main()
 						if (event.key.code == sf::Keyboard::Space)
 						{
 							p.reset();
+							endScreen = false;
 							win = false;
 						}
 					}
 						break;
 				}
 			}
-		}
+		}//end winning loop
+		if (win)
+			window.close();
 	}
 
 	printf("Closing...\n");
