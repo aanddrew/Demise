@@ -13,7 +13,22 @@ C255,50,50
 #Layer: y = .5
 1.5,.5,.5,.5
 2.5,.5,1.5,.5
+
+
+#South Walls (Color: Yellow)
+C255,255,0
+#Layer: y = .5
 3.5,.5,5.5,.5
 5.5,.5,6.5,.5
 6.5,.5,7.5,.5
 9.5,.5,10.5,.5
+
+#East Walls (Color: Light Blue)
+C100,100,255
+#Layer: x = .5
+.5,.5,.5,-.5
+.5,2.5,.5,1.5
+
+#West Walls (Color: Purple)
+C200,50,250
+#Layer x = -.5

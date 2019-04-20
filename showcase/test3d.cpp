@@ -154,29 +154,27 @@ int main()
 	{
 		//grab the time of the last frame.
 		dt = clock.restart();
+		bool win = false;
 
-		while(window.pollEvent(event))
+		while(window.pollEvent(event) && !win)
 		{
-			while(check_win(p.getX(),p.getY()))
+			switch(event.type)
 			{
-			//bool win = check_win(p.getX(),p.getY());
-				switch(event.type)
+				case sf::Event::Closed:
+					window.close();
+					break;
+				case sf::Event::KeyPressed:
 				{
-					case sf::Event::Closed:
-						window.close();
-						break;
-					case sf::Event::KeyPressed:
-					{
-						handleInput(event.key.code, true, p, dt);
-					}
-						break;
-					case sf::Event::KeyReleased:
-					{
-						handleInput(event.key.code, false, p, dt);
-					}
-						break;
+					handleInput(event.key.code, true, p, dt);
 				}
+					break;
+				case sf::Event::KeyReleased:
+				{
+					handleInput(event.key.code, false, p, dt);
+				}
+					break;
 			}
+			win = check_win(p.getX(),p.getY());
 		}
 		//rotate the player's view based on how far they moved the mouse in the last frame
 		p.rotate(-0.003* (sf::Mouse::getPosition(window).x - window.getView().getSize().x/2));
