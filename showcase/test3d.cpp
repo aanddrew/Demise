@@ -150,13 +150,14 @@ int main()
 	//the player
 	Player p;
 
-	while(window.isOpen())
+	bool win = false;
+
+	while(window.isOpen() && !win)
 	{
 		//grab the time of the last frame.
 		dt = clock.restart();
-		bool win = false;
-
-		while(window.pollEvent(event) && !win)
+		
+		while(window.pollEvent(event))
 		{
 			switch(event.type)
 			{
