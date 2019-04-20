@@ -2,3 +2,7 @@ This website was instrumental in me understanding the BSP
 	https://www.cs.utah.edu/~jsnider/SeniorProj/BSP1/default.html
 This website helped me take the bsp to the next level
 	http://www.gamers.org/dhs/helpdocs/bsp_faq.html
+Downloaded arial font from here
+	https://www.ffonts.net/arial.font
+Of course, we used the graphics library - SFML for c++ to draw graphics
+	https://www.sfml-dev.org/
