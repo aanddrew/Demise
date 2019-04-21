@@ -255,8 +255,10 @@ int main()
 						if (event.key.code == sf::Keyboard::Space)
 						{
 							p.reset();
+							playerTimer = 0.0;
 							endScreen = false;
 							win = false;
+							clock.restart();
 						}
 					}
 						break;
